@@ -7,6 +7,7 @@ const ApiError = require('./utils/apiError');
 
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
+const categoryRoutes = require('./routes/category.routes');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get('/health', (req, res) => {
 // Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/categories', categoryRoutes);
 
 // 404 handler for undefined routes
 app.use((req, res, next) => {
