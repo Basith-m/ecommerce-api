@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: ecommerce-api
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/ecommerce_db?replicaSet=rs0
+      - JWT_SECRET=supersecretproductionjwtkey
+      - JWT_EXPIRES_IN=7d
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    container_name: ecommerce-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    # Configured with replicaSet to support MongoDB ACID transactions
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+
+volumes:
+  mongo-data:
